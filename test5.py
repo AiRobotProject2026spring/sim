@@ -117,5 +117,6 @@ for step in range(STEPS):
         obs, info = env.reset()
 env.close()
 
-media.show_video(frames, fps=25)
+# media.show_video(frames, fps=25)
+media.write_video("test5_out.mp4", frames, fps=25)
 print("配線確認 完了（動きは無意味でOK）。意味あるタスクには 9節の微調整が必要です。")
