@@ -2,6 +2,8 @@
 import torch
 from lerobot.policies.pi0.modeling_pi0 import PI0Policy
 import mediapy as media
+import gymnasium as gym
+import gym_so100      
 
 # 再起動などで 6節(MODEL_ID 定義)を飛ばしていても動くようにする安全ガード
 try:
