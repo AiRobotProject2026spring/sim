@@ -1,6 +1,7 @@
 # --- π0(pi0_base) ポリシーの読み込み（約14GB。数分かかります）---
 import torch
 from lerobot.policies.pi0.modeling_pi0 import PI0Policy
+from transformers import AutoTokenizer
 import mediapy as media
 import gymnasium as gym
 import gym_so100      
@@ -14,6 +15,26 @@ print("MODEL_ID:", MODEL_ID, "(未定義なら from_pretrained が自動DLしま
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
 print("device:", device)
+
+TASK_ID = "SO100EETransferCube-v0"   # 名前空間プレフィックス無しが正解
+TASK_TEXT = "pick up the cube"   # 微調整時のタスク文に合わせて変更
+STEPS = 120
+TOKENIZER_MAX_LENGTH = 48
+
+
+def load_paligemma_tokenizer():
+    try:
+        return AutoTokenizer.from_pretrained("google/paligemma-3b-pt-224", use_fast=False)
+    except OSError as exc:
+        raise RuntimeError(
+            "PaliGemma tokenizer を読み込めませんでした。pi0_base は task 文字列を "
+            "observation.language.tokens に変換する必要があります。\n"
+            "https://huggingface.co/google/paligemma-3b-pt-224 で利用条件に同意し、"
+            "`pixi run huggingface-cli login` または HF_TOKEN を設定してから再実行してください。"
+        ) from exc
+
+
+tokenizer = load_paligemma_tokenizer()
 
 # メモリ節約のため bf16 で読み込む（T4 では fp32 だと 14GB で OOM しやすい）
 try:
@@ -38,10 +59,6 @@ import numpy as np
 import torch
 import torch.nn.functional as F
 
-TASK_ID = "SO100EETransferCube-v0"   # 名前空間プレフィックス無しが正解
-TASK_TEXT = "pick up the cube"   # 微調整時のタスク文に合わせて変更
-STEPS = 120
-
 model_dtype = next(policy.parameters()).dtype
 
 
@@ -60,12 +77,20 @@ def build_batch(obs):
     state = np.zeros(32, dtype=np.float32)
     state[:6] = np.asarray(obs["agent_pos"], dtype=np.float32)[:6]
     state_t = torch.from_numpy(state).unsqueeze(0).to(device=device, dtype=model_dtype)
+    lang = tokenizer(
+        [TASK_TEXT if TASK_TEXT.endswith("\n") else f"{TASK_TEXT}\n"],
+        padding="max_length",
+        max_length=getattr(policy.config, "tokenizer_max_length", TOKENIZER_MAX_LENGTH),
+        truncation=True,
+        return_tensors="pt",
+    )
     return {
         "observation.images.base_0_rgb": base,
         "observation.images.left_wrist_0_rgb": wrist,
         "observation.images.right_wrist_0_rgb": base,
         "observation.state": state_t,
-        "task": [TASK_TEXT],   # 近年の lerobot は task 文字列を policy 内部でトークナイズ
+        "observation.language.tokens": lang["input_ids"].to(device=device),
+        "observation.language.attention_mask": lang["attention_mask"].to(device=device, dtype=torch.bool),
     }
 
 

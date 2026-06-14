@@ -12,6 +12,7 @@ python = ">=3.12.13,<3.13"
 packaging = ">=24.2,<26"
 numpy = ">=2.0.0,<2.3.0"
 mediapy = ">=1.2.6,<2"
+sentencepiece = ">=0.2.0,<0.3"
 
 [pypi-dependencies]
 lerobot = { git = "https://github.com/huggingface/lerobot.git", extras = ["pi"] }

@@ -107,6 +107,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/linux-64/libpq-18.4-hd5a49e9_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/libprotobuf-6.33.5-h6eeba95_1.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/librsvg-2.62.3-h4c96295_0.conda
+      - conda: https://conda.anaconda.org/conda-forge/linux-64/libsentencepiece-0.2.1-h432359f_3.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/libsndfile-1.2.2-hc7d488a_2.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/libsqlite-3.53.2-h0c1763c_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/libstdcxx-15.2.0-h934c35e_19.conda
@@ -157,6 +158,9 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/linux-64/readline-8.3-h853b02a_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/sdl2-2.32.56-h54a6638_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/sdl3-3.4.10-hdeec2a5_0.conda
+      - conda: https://conda.anaconda.org/conda-forge/linux-64/sentencepiece-0.2.1-h074af39_3.conda
+      - conda: https://conda.anaconda.org/conda-forge/linux-64/sentencepiece-python-0.2.1-py312h64a79d8_3.conda
+      - conda: https://conda.anaconda.org/conda-forge/linux-64/sentencepiece-spm-0.2.1-h432359f_3.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/shaderc-2026.2-h718be3e_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/snappy-1.2.2-h03e3b7b_1.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/spirv-tools-2026.2-hb700be7_0.conda
@@ -1664,6 +1668,21 @@ packages:
   purls: []
   size: 3476570
   timestamp: 1780450632624
+- conda: https://conda.anaconda.org/conda-forge/linux-64/libsentencepiece-0.2.1-h432359f_3.conda
+  sha256: 5a40fb6a8190a57c704f8dc7c23fbcee0eca400a70e1bcf8774aeae708575f4a
+  md5: ba0d4bf618ee90dd0d88780b0a925923
+  depends:
+  - __glibc >=2.17,<3.0.a0
+  - libabseil * cxx17*
+  - libabseil >=20260107.0,<20260108.0a0
+  - libgcc >=14
+  - libprotobuf >=6.33.5,<6.33.6.0a0
+  - libstdcxx >=14
+  license: Apache-2.0
+  license_family: Apache
+  purls: []
+  size: 859187
+  timestamp: 1770167820403
 - conda: https://conda.anaconda.org/conda-forge/linux-64/libsndfile-1.2.2-hc7d488a_2.conda
   sha256: 57cb5f92110324c04498b96563211a1bca6a74b2918b1e8df578bfed03cc32e4
   md5: 067590f061c9f6ea7e61e3b2112ed6b3
@@ -2474,6 +2493,52 @@ packages:
   purls: []
   size: 2148830
   timestamp: 1780262823658
+- conda: https://conda.anaconda.org/conda-forge/linux-64/sentencepiece-0.2.1-h074af39_3.conda
+  sha256: 32a9d0d06e3375c8a7d27cb71603259a9b825ec1ba0ce42506ff9d21e6e6bfb1
+  md5: afcc248f5ba96dfa06cccd42de0b9f3a
+  depends:
+  - libsentencepiece 0.2.1 h432359f_3
+  - python_abi 3.12.* *_cp312
+  - sentencepiece-python 0.2.1 py312h64a79d8_3
+  - sentencepiece-spm 0.2.1 h432359f_3
+  license: Apache-2.0
+  license_family: Apache
+  purls: []
+  size: 19955
+  timestamp: 1770168315838
+- conda: https://conda.anaconda.org/conda-forge/linux-64/sentencepiece-python-0.2.1-py312h64a79d8_3.conda
+  sha256: f49c5cad8849391098257ab26dca33d102fcca7cdf7f64259318ea72cf8986f9
+  md5: 865ac9e3cf1d7d3144d501292a800075
+  depends:
+  - __glibc >=2.17,<3.0.a0
+  - libgcc >=14
+  - libprotobuf >=6.33.5,<6.33.6.0a0
+  - libsentencepiece 0.2.1 h432359f_3
+  - libstdcxx >=14
+  - python >=3.12,<3.13.0a0
+  - python_abi 3.12.* *_cp312
+  license: Apache-2.0
+  license_family: Apache
+  purls:
+  - pkg:pypi/sentencepiece?source=hash-mapping
+  size: 3261010
+  timestamp: 1770168113563
+- conda: https://conda.anaconda.org/conda-forge/linux-64/sentencepiece-spm-0.2.1-h432359f_3.conda
+  sha256: f6cec76b6bf9d2e6d35706be91aaf4072557e351fff40f7d1aea421c0777accb
+  md5: d6c303d1238b187b6d1e47d473a5cd87
+  depends:
+  - __glibc >=2.17,<3.0.a0
+  - libabseil * cxx17*
+  - libabseil >=20260107.0,<20260108.0a0
+  - libgcc >=14
+  - libprotobuf >=6.33.5,<6.33.6.0a0
+  - libsentencepiece 0.2.1 h432359f_3
+  - libstdcxx >=14
+  license: Apache-2.0
+  license_family: Apache
+  purls: []
+  size: 87674
+  timestamp: 1770168237369
 - conda: https://conda.anaconda.org/conda-forge/linux-64/shaderc-2026.2-h718be3e_0.conda
   sha256: c6e3280867e54c97996a4fedda0ab72c92d48d1d69258bddf910130df72c169d
   md5: 6438976979721e2f60ec47327d8d38df
